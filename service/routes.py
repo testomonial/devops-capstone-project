@@ -67,6 +67,10 @@ def create_accounts():
 def list_accounts():
     """List all Accounts"""
     accounts = Account.all()
+
+    if not accounts:
+        abort(status.HTTP_404_NOT_FOUND, f"No account found")
+
     accounts_list = [account.serialize() for account in accounts]
     
     app.logger.info("Returning [%s] accounts",len(accounts_list))
@@ -107,9 +111,6 @@ def update_account(id):
     app.logger.info("Request to update an Account with id: %s", id)
     account = Account.find(id)
 
-    if not account:
-        abort(status.HTTP_404_NOT_FOUND, f"No account found")
-
     account.deserialize(request.get_json())
     account.update()
     return account.serialize(), status.HTTP_200_OK
@@ -120,6 +121,16 @@ def update_account(id):
 ######################################################################
 
 # ... place you code here to DELETE an account ...
+
+@app.route("/accounts/<int:id>", methods=["DELETE"])
+def delete_account(id):
+    """Delete an Account"""
+    app.logger.info("Request to delete an Account with id: %s", id)
+    account = Account.find(id)
+    if account:
+        account.delete()
+    
+    return "", status.HTTP_204_NO_CONTENT
 
 
 ######################################################################
@@ -137,3 +148,7 @@ def check_content_type(media_type):
         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         f"Content-Type must be {media_type}",
     )
+
+# @app.errorhandler()
+# def method_not_allowed():
+#     return "", status.HTTP_405_METHOD_NOT_ALLOWED
