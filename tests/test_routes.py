@@ -158,3 +158,12 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         updated_account = resp.get_json()
         self.assertEqual(updated_account["name"], "testomonial the great")
+
+    def test_list_all_accounts(self):
+        """It should get a list of accounts"""
+        self._create_accounts(5)
+        response = self.client.get(f"{BASE_URL}")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        accounts_list = response.get_json()
+        self.assertEqual(len(accounts_list), 5)
+        
