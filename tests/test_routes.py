@@ -189,3 +189,9 @@ class TestAccountService(TestCase):
         }
         for key,value in headers.items():
             self.assertEqual(response.headers.get(key), value)
+
+    def test_flask_CORS(self):
+        """It should check for CORS security headers"""
+        resp = self.client.get("/", environ_overrides=HTTPS_ENVIRON)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp.headers.get("Access-Control-Allow-Origin"), "*")
