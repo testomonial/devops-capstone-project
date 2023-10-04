@@ -17,6 +17,7 @@ app.config.from_object(config)
 talisman = Talisman(app)
 cors = CORS(app)
 
+
 @app.after_request
 def add_xss_protection_header(response):
     response.headers['X-XSS-Protection'] = '1; mode=block'
@@ -27,13 +28,16 @@ def add_xss_protection_header(response):
 from service import routes, models  # noqa: F401 E402
 
 # pylint: disable=wrong-import-position
+
+
 from service.common import error_handlers, cli_commands  # noqa: F401 E402
 
 # Set up logging for production
 log_handlers.init_logging(app, "gunicorn.error")
 
 app.logger.info(70 * "*")
-app.logger.info("  A C C O U N T   S E R V I C E   R U N N I N G  ".center(70, "*"))
+app.logger.info(
+    "  A C C O U N T   S E R V I C E   R U N N I N G  ".center(70, "*"))
 app.logger.info(70 * "*")
 
 try:
