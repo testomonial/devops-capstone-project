@@ -75,7 +75,7 @@ spec:
       workingDir: $(workspaces.source.path)
       env:
         - name: DATABASE_URI
-          value: $(params.database_uri
+          value: $(params.database_uri)
       script: |
         #!/bin/bash
         set -e
