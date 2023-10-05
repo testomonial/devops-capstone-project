@@ -22,9 +22,12 @@ BASE_URL = "/accounts"
 
 HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 
+
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
+
+
 class TestAccountService(TestCase):
     """Account Service Tests"""
 
@@ -153,7 +156,7 @@ class TestAccountService(TestCase):
             json=test_account.serialize()
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        
+
         # update the account
         new_account = response.get_json()
         new_account["name"] = "testomonial the great"
@@ -185,7 +188,7 @@ class TestAccountService(TestCase):
             'X-XSS-Protection': '1; mode=block',
             'X-Content-Type-Options': 'nosniff',
             'Content-Security-Policy': 'default-src \'self\'; object-src \'none\'',
-            'Referrer-Policy': 'strict-origin-when-cross-origin',
+            'Referrer-Policy': 'strict-origin-when-cross-origin', 
         }
         for key,value in headers.items():
             self.assertEqual(response.headers.get(key), value)
