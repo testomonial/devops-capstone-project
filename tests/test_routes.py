@@ -172,7 +172,7 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         accounts_list = response.get_json()
         self.assertEqual(len(accounts_list), 5)
-        
+
     def test_delete_account(self):
         """It should delete an account"""
         account = self._create_accounts(1)[0]
@@ -188,9 +188,9 @@ class TestAccountService(TestCase):
             'X-XSS-Protection': '1; mode=block',
             'X-Content-Type-Options': 'nosniff',
             'Content-Security-Policy': 'default-src \'self\'; object-src \'none\'',
-            'Referrer-Policy': 'strict-origin-when-cross-origin', 
+            'Referrer-Policy': 'strict-origin-when-cross-origin',
         }
-        for key,value in headers.items():
+        for key, value in headers.items():
             self.assertEqual(response.headers.get(key), value)
 
     def test_flask_CORS(self):
