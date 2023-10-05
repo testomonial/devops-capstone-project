@@ -22,9 +22,12 @@ BASE_URL = "/accounts"
 
 HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 
+
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
+
+
 class TestAccountService(TestCase):
     """Account Service Tests"""
 
@@ -153,7 +156,7 @@ class TestAccountService(TestCase):
             json=test_account.serialize()
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        
+
         # update the account
         new_account = response.get_json()
         new_account["name"] = "testomonial the great"
@@ -169,7 +172,7 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         accounts_list = response.get_json()
         self.assertEqual(len(accounts_list), 5)
-        
+
     def test_delete_account(self):
         """It should delete an account"""
         account = self._create_accounts(1)[0]
@@ -187,7 +190,7 @@ class TestAccountService(TestCase):
             'Content-Security-Policy': 'default-src \'self\'; object-src \'none\'',
             'Referrer-Policy': 'strict-origin-when-cross-origin',
         }
-        for key,value in headers.items():
+        for key, value in headers.items():
             self.assertEqual(response.headers.get(key), value)
 
     def test_flask_CORS(self):
